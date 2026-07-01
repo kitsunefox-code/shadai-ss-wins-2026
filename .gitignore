@@ -1,0 +1,5 @@
+# 公開repoにはデータ(CSV/JSON)だけを載せる。スクリプトやローカルパスは非公開。
+*
+!.gitignore
+!wins_2026.csv
+!wins_2026.json
