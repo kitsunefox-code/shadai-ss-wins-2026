@@ -65,6 +65,8 @@
   /* grade badges */
   .badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;
     padding:2px 8px;border-radius:5px;color:#fff;line-height:1.5;flex:none}
+  .sale{color:#e6c15a;font-size:12px;margin-top:4px;font-weight:600}
+  .owner{color:var(--sub);font-size:11px;margin-top:2px}
   .b-g1{background:var(--g1)} .b-g2{background:var(--g2)} .b-g3{background:var(--g3)}
   .b-jpn{background:var(--jpn)} .b-l{background:var(--l)} .b-op{background:var(--l)}
   .g1card .badge{font-size:13px;padding:3px 12px}
@@ -118,10 +120,12 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
   const head=rows.shift();
   const idx=n=>head.indexOf(n);
   const c={date:idx("開催日"),grade:idx("格"),race:idx("レース名"),course:idx("競馬場"),
-    dist:idx("距離"),horse:idx("馬名"),sire:idx("父"),dam:idx("母"),damsire:idx("母父"),photo:idx("写真URL")};
+    dist:idx("距離"),horse:idx("馬名"),sire:idx("父"),dam:idx("母"),damsire:idx("母父"),
+    owner:idx("馬主"),sale:idx("セリ結果"),photo:idx("写真URL")};
   const wins=rows.filter(r=>r.length>=9&&r[c.horse]).map(r=>({
     date:r[c.date],grade:(r[c.grade]||"").trim(),race:r[c.race],course:r[c.course],
     dist:r[c.dist],horse:r[c.horse],sire:r[c.sire],dam:r[c.dam],damsire:r[c.damsire],
+    owner:(c.owner>=0?r[c.owner]:"")||"",sale:(c.sale>=0?r[c.sale]:"")||"",
     photo:(r[c.photo]||"").trim()
   }));
   // 1月→12月 (昇順)、各月内も日付昇順
@@ -155,6 +159,8 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
         <div class="ped">${esc(w.sire)} <span class="sub">×</span> ${esc(w.dam)} <span class="sub">（母父 ${esc(w.damsire)}）</span></div>
         <div class="race">${badge(w.grade)} ${esc(w.race)}</div>
         <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
+        ${w.sale?`<div class="sale">🔨 ${esc(w.sale)}</div>`:""}
+        ${w.owner?`<div class="owner">馬主：${esc(w.owner)}</div>`:""}
       </div>`;
       board.appendChild(card);
     });
@@ -171,6 +177,8 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
           <div class="ped1"><b>${esc(w.sire)}</b> × ${esc(w.dam)} （母父 ${esc(w.damsire)}）</div>
           <div class="race">${badge(w.grade)} ${esc(w.race)}</div>
           <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
+          ${w.sale?`<div class="sale">🔨 ${esc(w.sale)}</div>`:""}
+          ${w.owner?`<div class="owner">馬主：${esc(w.owner)}</div>`:""}
         </div>`;
         fg.appendChild(card);
       });
@@ -186,7 +194,8 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
         card.innerHTML=`<div class="top">${b}<span class="horse">${esc(w.horse)}</span></div>
           <div class="race">${esc(w.race)}</div>
           <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
-          <div class="ped1"><b>${esc(w.sire)}</b> × ${esc(w.dam)} （母父 ${esc(w.damsire)}）</div>`;
+          <div class="ped1"><b>${esc(w.sire)}</b> × ${esc(w.dam)} （母父 ${esc(w.damsire)}）</div>
+          ${w.sale?`<div class="sale">🔨 ${esc(w.sale)}</div>`:""}`;
         grid.appendChild(card);
       });
       board.appendChild(grid);
