@@ -1,5 +1,6 @@
-# 公開repoにはデータ(CSV/JSON)だけを載せる。スクリプトやローカルパスは非公開。
+# 公開repoにはデータ(CSV/JSON)とボード(board.html)だけを載せる。スクリプト/ローカルパス/photos.csvは非公開。
 *
 !.gitignore
 !wins_2026.csv
 !wins_2026.json
+!board.html

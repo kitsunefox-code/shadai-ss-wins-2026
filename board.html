@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHADAI STALLION STATION 2026 Winners</title>
+<style>
+  :root{
+    --bg:#0a0a0c; --panel:#141418; --gold:#d8b25a; --gold2:#f0d488;
+    --txt:#e9e6df; --sub:#8f8b82; --line:#26262c;
+    --g1:#3b6fd6; --g2:#c0433f; --g3:#2f9e6b; --jpn:#c98a2b; --l:#7b7f88;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  header{text-align:center;padding:34px 16px 10px;border-bottom:1px solid var(--line)}
+  header .mark{color:var(--gold);letter-spacing:.35em;font-size:13px}
+  header h1{margin:.35em 0 .1em;font-size:clamp(22px,4vw,34px);color:var(--gold2);
+    letter-spacing:.08em;font-weight:800}
+  header .sub{color:var(--sub);font-size:13px;letter-spacing:.2em}
+  #meta{color:var(--sub);font-size:12px;margin-top:8px}
+  .wrap{max-width:1100px;margin:0 auto;padding:8px 16px 60px}
+  .month{margin:34px 0 14px;display:flex;align-items:baseline;gap:12px}
+  .month .en{color:var(--gold);font-size:22px;font-weight:800;letter-spacing:.12em}
+  .month .ja{color:var(--sub);font-size:13px}
+  .month .cnt{margin-left:auto;color:var(--sub);font-size:12px}
+  .month::after{content:"";flex:0}
+  /* G1 featured */
+  .g1card{background:linear-gradient(180deg,#1a1710,#121016);
+    border:1px solid #5a4a24;border-radius:14px;padding:18px 20px;margin:12px 0;
+    display:flex;gap:20px;align-items:center;box-shadow:0 0 0 1px #2a2416 inset}
+  .g1card .photo{width:120px;height:120px;border-radius:10px;object-fit:cover;
+    border:1px solid #4a3f22;flex:none}
+  .g1card .body{flex:1;min-width:0}
+  .g1card .horse{font-size:clamp(24px,4vw,34px);color:var(--gold2);font-weight:800;
+    letter-spacing:.03em;line-height:1.1}
+  .g1card .ped{color:var(--txt);font-size:14px;margin-top:6px}
+  .g1card .ped .sub{color:var(--sub)}
+  .g1card .race{margin-top:10px;color:var(--txt);font-size:15px}
+  .g1card .info{color:var(--sub);font-size:12px;margin-top:4px}
+  /* medium featured (G2/G3/L/OP) 月の上部にまとめる */
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:10px;margin:10px 0}
+  .featured{background:linear-gradient(180deg,#17161a,#131217);border:1px solid #34343c;
+    border-radius:11px;padding:12px 14px;display:flex;gap:14px;align-items:center}
+  .featured .photo{width:74px;height:74px;border-radius:8px;object-fit:cover;
+    border:1px solid #3a3a42;flex:none}
+  .featured .body{flex:1;min-width:0}
+  .featured .horse{color:var(--gold2);font-size:19px;font-weight:800;letter-spacing:.02em}
+  .featured .race{color:var(--txt);font-size:13px;margin-top:3px}
+  .featured .info{color:var(--sub);font-size:11px;margin-top:2px}
+  .featured .ped1{margin-top:5px}
+  /* grid for 条件戦 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px}
+  .card .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .card .horse{color:var(--gold2);font-size:17px;font-weight:700}
+  .card .race{color:var(--txt);font-size:13px;margin-top:3px}
+  .card .info{color:var(--sub);font-size:11px;margin-top:2px}
+  /* 父母母父 一行(崩さない) */
+  .ped1{color:var(--sub);font-size:12px;margin-top:6px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ped1 b{color:var(--txt);font-weight:600}
+  /* grade badges */
+  .badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;
+    padding:2px 8px;border-radius:5px;color:#fff;line-height:1.5;flex:none}
+  .b-g1{background:var(--g1)} .b-g2{background:var(--g2)} .b-g3{background:var(--g3)}
+  .b-jpn{background:var(--jpn)} .b-l{background:var(--l)} .b-op{background:var(--l)}
+  .g1card .badge{font-size:13px;padding:3px 12px}
+  #status{color:var(--sub);text-align:center;padding:40px;font-size:14px}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<header>
+  <div class="mark">◆ SHADAI STALLION STATION ◆</div>
+  <h1>2026 WINNERS</h1>
+  <div class="sub">社台スタリオンステーション繋養種牡馬 産駒 JRA 勝ち鞍</div>
+  <div id="meta"></div>
+</header>
+<div class="wrap"><div id="status">読み込み中…</div><div id="board"></div></div>
+
+<script>
+const CSV_URL = "https://raw.githubusercontent.com/kitsunefox-code/shadai-ss-wins-2026/main/wins_2026.csv";
+const MONTHS_EN = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY",
+  "AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+
+function parseCSV(text){
+  const rows=[]; let i=0,f="",row=[],q=false;
+  while(i<text.length){
+    const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+    else{ if(c==='"')q=true; else if(c===','){row.push(f);f="";}
+      else if(c==='\n'||c==='\r'){ if(c==='\r'&&text[i+1]==='\n')i++; if(f!==""||row.length){row.push(f);rows.push(row);row=[];f="";} }
+      else f+=c; }
+    i++;
+  }
+  if(f!==""||row.length){row.push(f);rows.push(row);}
+  return rows;
+}
+function badge(g){
+  if(!g) return "";
+  const m={"G1":"b-g1","G2":"b-g2","G3":"b-g3","L":"b-l","OP":"b-op",
+    "JpnI":"b-jpn","JpnII":"b-jpn","JpnIII":"b-jpn"};
+  const cls=m[g]; if(!cls) return ""; // それ以外(条件戦)はバッジ無し
+  return `<span class="badge ${cls}">${g}</span>`;
+}
+function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+
+fetch(CSV_URL).then(r=>r.text()).then(text=>{
+  const rows=parseCSV(text);
+  const head=rows.shift();
+  const idx=n=>head.indexOf(n);
+  const c={date:idx("開催日"),grade:idx("格"),race:idx("レース名"),course:idx("競馬場"),
+    dist:idx("距離"),horse:idx("馬名"),sire:idx("父"),dam:idx("母"),damsire:idx("母父"),photo:idx("写真URL")};
+  const wins=rows.filter(r=>r.length>=9&&r[c.horse]).map(r=>({
+    date:r[c.date],grade:(r[c.grade]||"").trim(),race:r[c.race],course:r[c.course],
+    dist:r[c.dist],horse:r[c.horse],sire:r[c.sire],dam:r[c.dam],damsire:r[c.damsire],
+    photo:(r[c.photo]||"").trim()
+  }));
+  // 1月→12月 (昇順)、各月内も日付昇順
+  wins.sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById("meta").textContent =
+    `全 ${wins.length} 勝 ／ G1 ${wins.filter(w=>w.grade==="G1").length}・`+
+    `G2 ${wins.filter(w=>w.grade==="G2").length}・G3 ${wins.filter(w=>w.grade==="G3").length}`;
+  const byMonth={};
+  wins.forEach(w=>{const mo=(w.date||"").slice(0,7);(byMonth[mo]=byMonth[mo]||[]).push(w);});
+  const board=document.getElementById("board");
+  document.getElementById("status").style.display="none";
+  Object.keys(byMonth).sort((a,b)=>a.localeCompare(b)).forEach(mo=>{
+    const list=byMonth[mo];
+    const mn=parseInt(mo.slice(5,7),10);
+    const h=document.createElement("div");h.className="month";
+    h.innerHTML=`<span class="en">${MONTHS_EN[mn-1]}</span><span class="ja">${mn}月</span>`+
+      `<span class="cnt">${list.length}勝</span>`;
+    board.appendChild(h);
+    // 月内の並び: G1(大)→ G2/G3/L/OP(中) を上部にまとめ → 条件戦(グリッド)
+    const RANK={G1:1,G2:2,G3:3,JpnI:4,JpnII:5,JpnIII:6,L:7,OP:8};
+    const featured=list.filter(w=>RANK[w.grade])
+      .sort((a,b)=>(RANK[a.grade]-RANK[b.grade])||a.date.localeCompare(b.date));
+    const plain=list.filter(w=>!RANK[w.grade]);   // 条件戦(日付降順のまま)
+    // G1 大カード
+    featured.filter(w=>w.grade==="G1").forEach(w=>{
+      const card=document.createElement("div");card.className="g1card";
+      const photo = w.photo ? `<img class="photo" src="${esc(w.photo)}" alt="">` : "";
+      card.innerHTML = photo + `<div class="body">
+        <div class="horse">${esc(w.horse)}</div>
+        <div class="ped">${esc(w.sire)} <span class="sub">×</span> ${esc(w.dam)} <span class="sub">（母父 ${esc(w.damsire)}）</span></div>
+        <div class="race">${badge(w.grade)} ${esc(w.race)}</div>
+        <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
+      </div>`;
+      board.appendChild(card);
+    });
+    // G2/G3/L/OP 中カード(月の上部)
+    const med=featured.filter(w=>w.grade!=="G1");
+    if(med.length){
+      const fg=document.createElement("div");fg.className="fgrid";
+      med.forEach(w=>{
+        const card=document.createElement("div");card.className="featured";
+        const photo = w.photo ? `<img class="photo" src="${esc(w.photo)}" alt="">` : "";
+        card.innerHTML = photo + `<div class="body">
+          <div class="horse">${esc(w.horse)}</div>
+          <div class="ped1"><b>${esc(w.sire)}</b> × ${esc(w.dam)} （母父 ${esc(w.damsire)}）</div>
+          <div class="race">${badge(w.grade)} ${esc(w.race)}</div>
+          <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
+        </div>`;
+        fg.appendChild(card);
+      });
+      board.appendChild(fg);
+    }
+    // 条件戦グリッド
+    if(plain.length){
+      const grid=document.createElement("div");grid.className="grid";
+      plain.forEach(w=>{
+        const card=document.createElement("div");card.className="card";
+        const b=badge(w.grade);
+        card.innerHTML=`<div class="top">${b}<span class="horse">${esc(w.horse)}</span></div>
+          <div class="race">${esc(w.race)}</div>
+          <div class="info">${esc(w.date.replace(/-/g,"/"))}　${esc(w.course)}　${esc(w.dist)}</div>
+          <div class="ped1"><b>${esc(w.sire)}</b> × ${esc(w.dam)} （母父 ${esc(w.damsire)}）</div>`;
+        grid.appendChild(card);
+      });
+      board.appendChild(grid);
+    }
+  });
+}).catch(e=>{
+  document.getElementById("status").innerHTML =
+    "読み込みに失敗しました。<br>ブラウザで直接この HTML を開いてください（file:// でも動きます）。<br><small>"+esc(String(e))+"</small>";
+});
+</script>
+</body>
+</html>
