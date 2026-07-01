@@ -107,6 +107,11 @@ function badge(g){
   return `<span class="badge ${cls}">${g}</span>`;
 }
 function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+// カード左端の色 = グレード色(重賞/L/OP)。条件戦は控えめな線色。
+function gcol(g){
+  const m={"G1":"--g1","G2":"--g2","G3":"--g3","JpnI":"--jpn","JpnII":"--jpn","JpnIII":"--jpn","L":"--l","OP":"--l"};
+  return m[g]?`var(${m[g]})`:"var(--line)";
+}
 
 fetch(CSV_URL).then(r=>r.text()).then(text=>{
   const rows=parseCSV(text);
@@ -143,6 +148,7 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
     // G1 大カード
     featured.filter(w=>w.grade==="G1").forEach(w=>{
       const card=document.createElement("div");card.className="g1card";
+      card.style.borderLeft="6px solid "+gcol(w.grade);
       const photo = w.photo ? `<img class="photo" src="${esc(w.photo)}" alt="">` : "";
       card.innerHTML = photo + `<div class="body">
         <div class="horse">${esc(w.horse)}</div>
@@ -158,6 +164,7 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
       const fg=document.createElement("div");fg.className="fgrid";
       med.forEach(w=>{
         const card=document.createElement("div");card.className="featured";
+        card.style.borderLeft="6px solid "+gcol(w.grade);
         const photo = w.photo ? `<img class="photo" src="${esc(w.photo)}" alt="">` : "";
         card.innerHTML = photo + `<div class="body">
           <div class="horse">${esc(w.horse)}</div>
@@ -174,6 +181,7 @@ fetch(CSV_URL).then(r=>r.text()).then(text=>{
       const grid=document.createElement("div");grid.className="grid";
       plain.forEach(w=>{
         const card=document.createElement("div");card.className="card";
+        card.style.borderLeft="6px solid "+gcol(w.grade);
         const b=badge(w.grade);
         card.innerHTML=`<div class="top">${b}<span class="horse">${esc(w.horse)}</span></div>
           <div class="race">${esc(w.race)}</div>
