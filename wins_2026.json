@@ -1,6 +1,6 @@
 {
- "updated": "2026-07-26T17:03:08",
- "count": 807,
+ "updated": "2026-07-27T11:03:41",
+ "count": 810,
  "wins": [
   {
    "date": "2026/01/04",
@@ -11990,6 +11990,36 @@
   {
    "date": "2026/07/26",
    "grade": "",
+   "race": "3歳以上1勝クラス",
+   "course": "中京",
+   "distance": "ダ1400m",
+   "horse": "ポッドリプル",
+   "sire": "コントレイル",
+   "dam": "エピストロフィー",
+   "damsire": "Charm Spirit",
+   "owner": "小川　眞査雄",
+   "breeder": "市川フアーム",
+   "sale": "",
+   "photo": ""
+  },
+  {
+   "date": "2026/07/26",
+   "grade": "",
+   "race": "3歳以上1勝クラス",
+   "course": "中京",
+   "distance": "芝1600m",
+   "horse": "ロケベンドラ",
+   "sire": "イスラボニータ",
+   "dam": "リベルタンゴ",
+   "damsire": "Smart Strike",
+   "owner": "吉田　照哉",
+   "breeder": "社台ファーム",
+   "sale": "",
+   "photo": ""
+  },
+  {
+   "date": "2026/07/26",
+   "grade": "",
    "race": "3歳未勝利",
    "course": "新潟",
    "distance": "ダ1200m",
@@ -12030,6 +12060,21 @@
    "owner": "ダノックス",
    "breeder": "ノーザンファーム",
    "sale": "18,700万円（セレクトセール）",
+   "photo": ""
+  },
+  {
+   "date": "2026/07/26",
+   "grade": "",
+   "race": "3歳未勝利",
+   "course": "新潟",
+   "distance": "ダ1800m",
+   "horse": "トップデュオ",
+   "sire": "シスキン",
+   "dam": "デュアルネイチャー",
+   "damsire": "ゴールドシップ",
+   "owner": "Ｇ１レーシング",
+   "breeder": "社台コーポレーション白老ファーム",
+   "sale": "",
    "photo": ""
   },
   {
